@@ -3,10 +3,8 @@ package com.dukescript.games.codermasters.puzzlelogic;
 
 import com.dukescript.games.codermasters.puzzlelogic.js.Dialogs;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import net.java.html.json.ComputedProperty;
 import net.java.html.json.Function;
 import net.java.html.json.Model;
 import net.java.html.json.ModelOperation;
@@ -34,7 +32,7 @@ import net.java.html.json.Property;
     @Property(name = "silencio", type = boolean.class),
     @Property(name="audio",type = String.class),
     @Property(name="rutaaudio",type = String.class),
-    @Property(name = "tablero", type = Tablero.class, array = true)
+    @Property(name = "tablero", type = Tablero.class)
 })
 
 final class DataModel {
@@ -144,9 +142,10 @@ final class DataModel {
             //document.getElementById("p" + j).innerText = num;
             //}
         //}
-        model.getTablero().clear();
-        model.getTablero().add(tablero);
+        
+        model.setTablero(tablero);
         System.out.println(tablero);
+       // JQuery.displayResultsAsTable("board",tablero.toString());
     }
 
     /*@ComputedProperty
@@ -207,8 +206,7 @@ final class DataModel {
     static void onPageLoad() throws Exception {
         //TODO cuando se administre la música desde eñ backen usar nativo RemoveListener para quitar el loop.
         Usuario usuario = new Usuario("tontonymous", "9:99:99", "99999", "-1");
-        ui = new ConfiguracionJuego(0, 0, 0, false, "home", 4, 4, true,0,
-                usuario,false,"","snd/strike3ausencia.mp3");
+        ui= new ConfiguracionJuego(0, 0, 0, false, "home", 4, 4, true, 0, usuario, false, "", "snd/strike3ausencia.mp3", new Tablero());
         
         Models.toRaw(ui);
         Dialogs.registerBinding();
