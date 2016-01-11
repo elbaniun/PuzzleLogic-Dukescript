@@ -7,16 +7,14 @@
         <link href="lib/ionic/css/ionic.css" rel="stylesheet">
         <link href="css/estilos.css" rel="stylesheet">
     </head>
-    <body data-bind="route: page" class="fondoDePaisaje">
-        <script type="text/javascript" data-bind="text: audio">
-        </script>
+    <body class="fondoDePaisaje" data-bind="route: page, style:{backgroundImage: 'url('+miGUI().rutaFondoApp+')'}">
+        <audio id="musicadefondo"></audio>
 
         <div data-bind="template: { name: page }"></div>
 
-
         <script type="text/html" id="home">
 
-            <a nav-direction="forward"  href="#/settings"><button class="button button-assertive icon ion-gear-a" style="float:right;"></button></a>
+            <a id="settinglink" href="#/settings"><button id="settingbutton" class="button button-assertive icon ion-gear-a" style="float:right;"></button></a>
             <br>
             <br>
             <!--logo-->
@@ -63,7 +61,8 @@
         </script>
         <script type="text/html" id="dashboard">
             <!--movimientos realizados-->
-            <div class="mismovimientos row">
+            <div class="row" data-bind="css:miGUI().claseMisMovimientos">
+                <!-- <div class="row" data-bind="style: {'background-color': miGUI().getColorFondo, 'border-size':'6px', 'border-style': 'solid', 'border-color': miGUI().getColorBorde}"> -->
                 <div class="col">
                     <span style="float:left;">Mov:</span>
                     <span style="float:left;" id="movimientos" data-bind="text:movimientos;"></span>
@@ -89,15 +88,6 @@
                     </div>
                 </div>
             </div>
-
-
-            <!-- <div class="row tabla"  id="tabla1" data-bind="foreach: filas">
-                <div data-bind="foreach: columnas">
-                    <div class="col" posicion="0" id="p1" data-bind="foreach:$parent.fichas">
-                        <p data-bind="text:$parent.NumeroLetraSimbolo"></p>
-                    </div>
-                </div>
-            </div> -->
 
             <!--crearemos la tabla
             <div class="row tabla" id="tabla1">
@@ -127,7 +117,7 @@
             -->
 
             <!--volver-->
-            <div class="mismovimientos">
+            <div data-bind="css:miGUI().claseMisMovimientos">
                 <span style="float:left; font-size:16px !important;">Derechos Reservados</span>
                 <a href="#/home" style="float:right;" id="nuevo">Volver</a>  
                 <div style="clear:both;"></div>
@@ -139,7 +129,7 @@
                 <h2 class="col" data-bind="text: jugador().mejorTiempo">???</h2>
             </div>
             <!--pie de pagina-->
-            <div class="mismovimientos">
+            <div data-bind="css:miGUI().claseMisMovimientos">
                 <span style="float:left; font-size:16px !important;">Derechos Reservados</span>
 
                 <a href="#/home" style="float:right;" id="nuevo">Volver</a>  
@@ -156,9 +146,7 @@
                         <i class="icon ion-volume-low"></i>
                         <input type="range" name="volume" min="0" max="100" value="60">
                         <i class="icon ion-volume-high"></i>
-                        <a href="" style="float:left; font-size:40px !important; margin-left: 5px; margin-right: 5px">
-                            <i class="icon ion-volume-mute"></i>
-                        </a>
+                        <i id="silencebutton" class="icon" data-bind="click:silenciarSonido(),css:silencio?'ion-volume-high':'ion-volume-mute'" style="float:left; font-size:40px !important; margin-left: 5px; margin-right: 5px"></i>
                     </div>
                     <div class="item item-toggle">
                         Tutorial
@@ -173,19 +161,22 @@
                         <div class="input-label">
                             Color de la Ficha
                         </div>
-                        <select name="color">
+                        <select name="color" data-bind="value:colorGUI">
                             <option value="1">Azul</option>
                             <option value="2" selected>Beige</option>
                             <option value="3">Rojo</option>
                             <option value="4">Verde</option>
                         </select>
                     </label>    
+                    <div>
+                        M&aacute;sica de fondo: <input type="file" name="sndfile" >
+                    </div>
                 </div>
             </div>
             <!--pie de pagina-->
-            <div class="mismovimientos">
+            <div data-bind="css:miGUI().claseMisMovimientos">
                 <span style="float:left; font-size:16px !important;">Derechos Reservados</span>
-                <a href="#/home" style="float:right;" id="nuevo">Volver</a>  
+                <a href="#/home" style="float:right;" id="nuevo" data-bind="click:poncssMisMovimientos()">Volver</a>  
                 <div style="clear:both;"></div>
             </div>
         </script>
@@ -194,7 +185,7 @@
             <hr />
             <div class="row responsive-md">
                 <div class="col HelpIzquierda" id="ayuda">
-                    <h2 class="estiloLetra">!Hola! Bienevenido Puzzle Logic</h2>
+                    <h2 class="estiloLetra">¡Hola! Bienevenido Puzzle Logic</h2>
                     <div class="containerAyuda">
                         <ul>
                             <li> <i class="icon ion-checkmark-circled verde"></i> Las piezas se mueven pulsando sobre ellas</li>
@@ -213,7 +204,7 @@
 
                 </div>
             </div>
-            <div class="mismovimientos">
+            <div data-bind="css:miGUI().claseMisMovimientos">
                 <span style="float:left; font-size:16px !important;">Derechos Reservados</span>
                 <a href="#/home" style="float:right;" id="nuevo">Volver</a>  
                 <div style="clear:both;"></div>

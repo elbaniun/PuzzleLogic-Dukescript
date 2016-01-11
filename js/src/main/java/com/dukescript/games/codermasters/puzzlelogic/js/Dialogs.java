@@ -52,15 +52,56 @@ public final class Dialogs {
 
     @JavaScriptBody(
             args = {"rutaMusica"}, body
-            = " var audioElement = document.createElement('audio');\n"
+            = "var audioElement = document.getElementById('musicadefondo');" //" var audioElement = document.createElement('audio');\n"
             + "            audioElement.setAttribute('src',rutaMusica);\n"
-            + "            audioElement.addEventListener('ended', function() {\n"
-            + "            this.currentTime = 0;\n"
-            + "            this.play();\n"
-            + "            }, false);\n"
-            + "            audioElement.play();"
     )
     public static native String configuraAudio(String rutaMusica);
+    
+    @JavaScriptBody(
+            args = {},
+            body = "var audioElement = document.getElementById('musicadefondo');" //" var audioElement = document.createElement('audio');\n"
+            + "            audioElement.muted = true;"
+    )
+    public static native void silenciaAudio();
+    
+    @JavaScriptBody(
+            args = {}, 
+            body= "var audioElement = document.getElementById('musicadefondo');" //" var audioElement = document.createElement('audio');\n"
+            + "            audioElement.muted = false;"
+    )
+    public static native void desilenciaAudio();
+
+    @JavaScriptBody(
+            args = {},
+            body = "var audioElement = document.getElementById('musicadefondo');"
+            + "var playtime=function playTime() {"
+            + "            audioElement.currentTime = 0;"
+            + "            audioElement .play();"
+            + "};"
+            + "if (audioElement !== null){ " //TODO tal vez salga sobrando este if
+            + "            audioElement.addEventListener('ended', playtime"
+            + "            , false);"
+            + "            audioElement.play();"
+            + "}"
+    )
+    public static native String reproducirAudio();
+
+    @JavaScriptBody(
+            args = {},
+            body = "var audioElement = document.getElementById('musicadefondo');"
+            + "            audioElement.pause();"
+            + "}"
+    )
+    public static native String pausarAudio();
+    
+    @JavaScriptBody(
+            args = {},
+            body = "var audioElement = document.getElementById('musicadefondo');"
+            + "            audioElement.pause();"
+            + "            audioElement.currentTime = 0;"
+            + "}"
+    )
+    public static native String pararAudio();
 
     /**
      * This method registers the bindings.
